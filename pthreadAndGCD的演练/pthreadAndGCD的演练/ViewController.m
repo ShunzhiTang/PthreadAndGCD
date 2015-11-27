@@ -16,7 +16,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testDemo];
+    //p thread
+//    [self testDemo];
+    
+    // NSThread
+    [self threadDemo];
 }
 
 
@@ -36,6 +40,7 @@
      - 若线程创建成功，则返回0
      - 若线程创建失败，则返回出错编号
      */
+    
     int result = pthread_create(&threadId , NULL , demo,(__bridge void *)(str));
     
     NSLog(@"%@" , [NSThread currentThread]);
@@ -54,5 +59,22 @@ void *demo(void *params){
     
     return NULL;
 }
+
+- (void)threadDemo{
+    
+    NSLog(@"before %@", [NSThread currentThread]);
+    
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(login:) object:@"THREAD"];
+    
+    [thread start];
+    
+    NSLog(@"after %@", [NSThread currentThread]);
+}
+
+-(void)login:(NSString *)obj{
+    
+    NSLog(@"%@", obj);
+}
+
 
 @end
